@@ -30,10 +30,6 @@ flowchart TD
     EventSystem --> PeriodScene
 ```
 
-Important explanation:
-
-`EraNavigator` is the central controller. It connects timeline pages to scene names, prevents overlapping loads with the `busy` flag, loads scenes additively, hides the UI Toolkit interface during AR, and restores it after exit. `DimmerToggle` is a shared usability feature that finds the dimmer overlay by tag and toggles it for readability.
-
 ## 2. Main Menu Timeline Page
 
 Main responsibility: introduce the app and move users into the geological timeline.
@@ -44,10 +40,6 @@ flowchart TD
     NextButton --> EraNavigator["EraNavigator.ShowPage(1)"]
     EraNavigator --> PrecambrianPage["Precambrian timeline page"]
 ```
-
-Important explanation:
-
-The main menu has no AR scene connected to it. It only advances the user into the first geological period page.
 
 ## 3. Precambrian Scene: `1_precambrian`
 
@@ -62,10 +54,6 @@ flowchart TD
     ExitButton --> ExitARScene["ExitARScene.cs"]
     ExitARScene --> BaseReturn["Return to timeline through EraNavigator"]
 ```
-
-Important explanation:
-
-This scene is mainly an environmental reconstruction. Its complexity is mostly in scene composition, model placement, scale, lighting, mobile rendering, and making the AR content readable and stable.
 
 ## 4. Cambrian Scene: `2_cambrian`
 
@@ -108,12 +96,6 @@ flowchart TD
     ExitButton["Exit button"] --> ExitARScene["ExitARScene.cs"]
 ```
 
-Important explanation:
-
-In the current scene, `tap_button.cs` is the active UI transition script. It hides the introductory text/image and shows the score, moving the user into the bubble activity. `start_button.cs` exists in the project folder, but it does not appear to be wired into the active `2_cambrian` scene, so it should be treated as an older leftover script rather than part of the final Cambrian flow.
-
-This scene is hard because the interaction depends on several things being correct at the same time: the AR camera must be found, the bubbles need colliders, the tap position must be converted into a ray, the ray must hit the intended bubble, the score manager singleton must exist, and the UI must update after objects are destroyed. Debugging this in AR is slower because editor behaviour does not always match the iPhone.
-
 ## 5. Ordovician Scene: `3_ordovician`
 
 Main responsibility: slider-controlled climate change, text visibility, and extinction effect.
@@ -141,10 +123,6 @@ flowchart TD
     ExitButton["Exit button"] --> ExitARScene["ExitARScene.cs"]
 ```
 
-Important explanation:
-
-This scene links one slider to multiple systems: post-processing, contextual text, object groups, and physics. The difficult part was making one user input produce a believable combined effect without each script fighting the others. It also required correct Inspector references: slider, volume, target text, life group, fish objects, and rigidbodies all had to be assigned or configured correctly.
-
 ## 6. Silurian Scene: `4_silurian`
 
 Main responsibility: visual/informational exhibit-style AR scene.
@@ -157,10 +135,6 @@ flowchart TD
     ExitButton --> ExitARScene["ExitARScene.cs"]
     ExitARScene --> Return["Unload scene and return to timeline"]
 ```
-
-Important explanation:
-
-The main work here is Unity scene assembly: placing objects, making information readable in AR, setting lighting/materials, and ensuring the scene exits through the shared navigation system.
 
 ## 7. Devonian Scene: `5_devonian`
 
@@ -175,10 +149,6 @@ flowchart TD
     Devonian --> ExitButton["Exit button"]
     ExitButton --> ExitARScene["ExitARScene.cs"]
 ```
-
-Important explanation:
-
-This is mostly a visual reconstruction scene, but it still depends on AR scale, camera readability, imported assets, materials, and performance on the iPhone.
 
 ## 8. Lower Carboniferous Scene: `6_lower_carboniferous`
 
@@ -212,10 +182,6 @@ flowchart TD
     ExitButton["Exit button"] --> ExitARScene["ExitARScene.cs"]
 ```
 
-Important explanation:
-
-This scene is a good example of why Unity setup was complex. The script logic is simple, but every quiz object must be correctly active or inactive at the right time, every button must call the correct method, every answer must have the correct index, and world-space UI needs the correct camera and EventSystem to receive taps.
-
 ## 9. Upper Carboniferous Scene: `7_upper_carboniferous`
 
 Main responsibility: quiz-based scene using the same shared quiz pattern.
@@ -238,10 +204,6 @@ flowchart TD
     ExitButton["Exit button"] --> ExitARScene["ExitARScene.cs"]
 ```
 
-Important explanation:
-
-The value of this pattern is reuse. Instead of creating completely different quiz code for every scene, the scene can chain question objects together through `nextQuestion`. The Unity difficulty is making the hierarchy and references correct for each individual quiz.
-
 ## 10. Triassic Scene: `8_triassic`
 
 Main responsibility: midpoint slider controlling environment and water level.
@@ -262,10 +224,6 @@ flowchart TD
 
     ExitButton["Exit button"] --> ExitARScene["ExitARScene.cs"]
 ```
-
-Important explanation:
-
-This scene is more than a basic slider. The slider value is remapped so that the strongest effect happens in the middle rather than at one end. That means the colour change and water height had to stay synchronised using the same midpoint logic.
 
 ## 11. Jurassic Scene: `9_jurassic`
 
@@ -314,10 +272,6 @@ flowchart TD
     ExitButton["Exit button"] --> ExitARScene["ExitARScene.cs"]
 ```
 
-Important explanation:
-
-This is one of the best scenes to discuss if asked about technical complexity. It combines timed UI, post-processing, quiz state, AR plane detection, tap-to-place, prefab spawning, reset logic, and animation. Bugs could come from the quiz, the post-processing volume, the AR raycast manager, plane detection, prefab scale, colliders, animation triggers, or the UI button references.
-
 ## 12. Cretaceous Scene: `10_cretaceous`
 
 Main responsibility: quiz scene plus swimming movement for prehistoric sea content.
@@ -342,10 +296,6 @@ flowchart TD
 
     ExitButton["Exit button"] --> ExitARScene["ExitARScene.cs"]
 ```
-
-Important explanation:
-
-This scene mixes ambient animation with the reusable quiz structure. `SwimRandom` gives the scene movement without requiring a complex AI system: it chooses local random targets, moves toward them, bobs vertically, and rotates the model to face its movement direction.
 
 ## 13. Tertiary Scene: `11_tertiary`
 
@@ -372,10 +322,6 @@ flowchart TD
     ExitButton["Exit button"] --> ExitARScene["ExitARScene.cs"]
 ```
 
-Important explanation:
-
-This scene follows the same quiz architecture as the other quiz scenes. The important thing to explain is that the quiz manager is reusable because the correct answer and next question are set per question object in the Unity Inspector.
-
 ## 14. Quaternary Scene: `12_quarternary`
 
 Main responsibility: Ice Age reveal through fade-in image and text.
@@ -396,10 +342,6 @@ flowchart TD
 
     ExitButton["Exit button"] --> ExitARScene["ExitARScene.cs"]
 ```
-
-Important explanation:
-
-This is a simpler scene technically, but it still demonstrates controlled sequencing: the user triggers a reveal, the image fades in over time using a coroutine, then the explanatory text appears only after the visual reveal is complete.
 
 ## 15. Shared Quiz Pattern
 
@@ -427,10 +369,6 @@ flowchart TD
     Highlight --> Disable["Disable wrong button"]
 ```
 
-Important explanation:
-
-The quiz system is reusable but Inspector-heavy. Each question needs the right buttons, text, feedback images, correct answer index, and next question reference. That is why debugging was often about Unity object wiring, not just code.
-
 ## 16. Shared Exit Pattern
 
 Every AR scene uses the same exit idea.
@@ -444,21 +382,3 @@ flowchart TD
     Unload --> EnableUIDoc["Enable UIDocument"]
     EnableUIDoc --> ShowPage["Show previous timeline page"]
 ```
-
-Important explanation:
-
-This avoids writing different exit logic for every geological period. Each scene only needs an exit button calling `ExitARScene.Exit()`, and the base scene handles the actual unload and UI restoration.
-
-## 17. Debugging Problems To Mention In The Q&A
-
-These are the realistic Unity/AR problems that made the project difficult:
-
-- UI buttons did not always receive taps until the correct camera, canvas mode, EventSystem, and raycast setup were in place.
-- World-space canvases needed the AR camera assigned, otherwise input and rendering behaved inconsistently.
-- Additive scene loading meant references could not always be dragged from the base scene into period scenes, so scripts often had to find AR managers or cameras at runtime.
-- Tap interactions needed colliders, correct object scale, correct layers, and a camera ray from the actual AR camera.
-- AR placement only worked after ARKit detected a usable plane, so testing depended on lighting, surface texture, and device movement.
-- Imported models could be too large, too small, too heavy, incorrectly rotated, or visually different on the phone compared with the editor.
-- Post-processing changes depended on URP volume profiles being present and containing the right `ColorAdjustments` override.
-- Scene UI and AR content could overlap, so the timeline UI had to be hidden and disabled during AR scenes.
-- Some bugs only appeared after building through Xcode and running on the iPhone, making the debug cycle much slower than normal Unity editor testing.
