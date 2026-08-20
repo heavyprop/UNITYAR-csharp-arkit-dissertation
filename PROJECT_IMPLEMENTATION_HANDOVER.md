@@ -117,8 +117,6 @@ Responsibilities:
 - Uses a `busy` flag to prevent overlapping scene loads.
 - Unloads the active scene and restores the menu when the user exits.
 
-Why this matters:
-
 This script is the backbone of the project. It turns separate Unity scenes into one continuous AR app experience.
 
 ### `ExitARScene.cs`
@@ -131,8 +129,6 @@ Responsibilities:
 - Calls `ReturnToMenu()`.
 - Lets each AR scene return to the menu without directly managing scene unloading.
 
-Why this matters:
-
 Each scene can share the same exit pattern instead of duplicating navigation code.
 
 ### `DimToggle.cs`
@@ -144,8 +140,6 @@ Responsibilities:
 - Finds the dimmer object by tag.
 - Hides it by default.
 - Toggles it on/off through a button.
-
-Why this matters:
 
 AR text can be hard to read over a real camera feed. The dimmer improves readability without changing the scene content.
 
@@ -168,8 +162,6 @@ Implementation:
 - UI Toolkit styling is handled through USS files.
 - Button names are important because `EraNavigator` queries them by name.
 
-Key point to explain:
-
 The menu is data-driven through arrays in the Unity Inspector. The UI page and AR scene at the same index correspond to each other.
 
 ### Precambrian
@@ -183,8 +175,6 @@ Implementation:
 - Visual AR environment with informational content.
 - Uses imported/environmental assets, lighting, materials, and scene composition.
 - Shares the same exit flow through `ExitARScene`.
-
-Key point to explain:
 
 This scene demonstrates AR environment setup and visual storytelling rather than complex local scripting.
 
@@ -212,8 +202,6 @@ Implementation:
 - `ScoreManager` tracks score and counts remaining good bubbles.
 - When all good bubbles are popped, the done panel appears.
 
-Key point to explain:
-
 This scene combines mobile touch input, AR camera raycasting, colliders, score state, audio feedback, object destruction, and UI updates.
 
 ### Ordovician
@@ -240,8 +228,6 @@ Implementation:
 - Alive fish are kinematic and do not fall.
 - Dead fish use gravity and fall through physics.
 
-Key point to explain:
-
 This scene turns one educational slider into a combined environmental simulation: climate change, explanatory text, and visible extinction.
 
 ### Silurian
@@ -256,8 +242,6 @@ Implementation:
 - Uses imported models and scene composition.
 - Uses the shared menu return flow.
 
-Key point to explain:
-
 The work here was mainly scene building: model placement, scale, lighting, readable UI, and AR presentation.
 
 ### Devonian
@@ -271,8 +255,6 @@ Implementation:
 - Visual/informational AR environment.
 - Uses terrain, water, materials, models, and information panels.
 - Uses shared AR session and exit flow.
-
-Key point to explain:
 
 This scene focuses on environmental reconstruction and mobile AR readability.
 
@@ -294,8 +276,6 @@ Implementation:
 - Correct answers show a correct image briefly, then destroy the current question objects and reveal the next question.
 - Wrong answers show a wrong image briefly, turn the selected button red, and disable it.
 
-Key point to explain:
-
 The quiz is staged through active/inactive GameObjects and reusable quiz logic. The hard part is wiring the right buttons, images, question objects, and answer indexes in the Unity Inspector.
 
 ### Upper Carboniferous
@@ -308,8 +288,6 @@ Implementation:
 
 - Era scene using the same general visual and quiz interaction pattern.
 - Uses the shared navigation and AR scene structure.
-
-Key point to explain:
 
 This scene reuses the same app architecture rather than needing a unique navigation system.
 
@@ -329,8 +307,6 @@ Implementation:
 - `ChangingSaturationTriassic.cs` uses the same midpoint peak idea for post-processing.
 - The middle of the slider becomes colder, more desaturated, and blue tinted.
 - The slider edges return to normal/warm appearance.
-
-Key point to explain:
 
 This scene uses mathematical mapping, especially a midpoint peak formula, to create an educational environmental change from a single slider.
 
@@ -360,8 +336,6 @@ Implementation:
 - `DinoTapAttack.cs` raycasts from the camera to the dinosaur and triggers an animator attack trigger when tapped.
 - `SpawnOnFloor.cs` is an alternate approach that repeatedly checks for horizontal AR planes and spawns once at a plane center.
 
-Key point to explain:
-
 This is the most integrated scene. It combines timed quiz flow, post-processing, UI feedback, AR plane detection, prefab spawning, reset logic, and animation triggers.
 
 ### Cretaceous
@@ -376,8 +350,6 @@ Implementation:
 - `SwimRandom` makes objects swim around within a local range.
 - Each object picks a random target point near its start position.
 - It moves toward that target, bobs vertically, faces the movement direction, and picks a new target when close.
-
-Key point to explain:
 
 This creates life-like movement without needing a full AI system or navigation mesh.
 
@@ -396,8 +368,6 @@ Implementation:
 - Reveals the next question when the correct answer is selected.
 - Wrong answers become red and disabled.
 
-Key point to explain:
-
 This scene shows reuse of the quiz idea with a scene-specific manager.
 
 ### Quaternary
@@ -414,8 +384,6 @@ Implementation:
 - A `RawImage` fades in over time using a coroutine.
 - After the fade completes, explanatory text is shown.
 
-Key point to explain:
-
 This scene uses a simple coroutine-based reveal to control pacing and presentation.
 
 ### Tree Prototype
@@ -429,8 +397,6 @@ Implementation:
 
 - A slider resizes a target object.
 - The script keeps the object's original position fixed while changing scale.
-
-Key point to explain:
 
 This looks like a prototype or supporting experiment for object scaling in AR.
 
@@ -521,43 +487,7 @@ Solution:
 
 Add mini-interactions: bubble popping, quizzes, extinction slider, sea-level slider, dinosaur placement, animation trigger, and fade reveal.
 
-## 10. What Is Essential to Keep
-
-If keeping a lightweight archive for future interviews, the most important files are:
-
-```text
-PROJECT_IMPLEMENTATION_HANDOVER.md
-Codex/scene_script_diagrams_for_QA.md
-Assets/Scenes/EraNavigator.cs
-Assets/Scenes/exitToMenu.cs
-Assets/Scripts/DimToggle.cs
-Assets/Scripts/QuizManager.cs
-Assets/UI/pages/*.uxml
-Assets/UI/*.uss
-Assets/Scenes/2Cambrian/*.cs
-Assets/Scenes/3Ordovician/Ordovician/*.cs
-Assets/Scenes/6LOWER_CARBONIFEROUS/start_quiz.cs
-Assets/Scenes/8Triassic/*.cs
-Assets/Scenes/9Jurassic/*.cs
-Assets/Scenes/10Cretaceous/swim_around.cs
-Assets/Scenes/11Tertiary/quiz_manager_tertiary.cs
-Assets/Scenes/12Quarternary/view_present_script.cs
-ProjectSettings/EditorBuildSettings.asset
-Packages/manifest.json
-```
-
-If keeping proof of visuals, also keep screenshots or a short screen recording of:
-
-- Timeline navigation.
-- Loading an era scene.
-- Cambrian bubble popping.
-- Ordovician extinction slider.
-- Triassic water/climate slider.
-- Jurassic quiz and dinosaur placement.
-- Returning from an AR scene back to the timeline.
-
-## 11. What Can Usually Be Deleted
-
+## 10. All the other fluff..
 These folders are large and not needed for a written implementation explanation:
 
 ```text
@@ -573,28 +503,7 @@ UserSettings/
 
 `Library/` alone is generated by Unity and can be recreated when the project is opened again. In this workspace, the whole project is around 20 GB, with `Assets/` around 4.9 GB and `Library/` around 7.5 GB. The documentation and script files are tiny compared with the imported assets and generated cache.
 
-If deleting the project completely, keep this handover document and any screenshots/videos separately.
-
-## 12. Interview Explanation
-
-Short version:
-
-> I built a Unity AR museum experience that teaches geological eras through interactive AR scenes. The app uses one persistent AR base scene with a timeline UI, then loads each geological period additively. Each period has its own interaction, such as quizzes, AR object placement, bubble popping, environmental sliders, animated animals, and scene-specific visual effects. The main challenge was combining Unity C# scripts with ARKit, mobile input, UI Toolkit, world-space UI, post-processing, scene management, imported 3D assets, and real-device testing.
-
-More technical version:
-
-> Architecturally, I used a persistent `XR+UI` scene to keep AR tracking, the XR Origin, AR camera, UI document, and shared controls alive. `EraNavigator` swaps UI Toolkit pages and loads selected era scenes additively with `SceneManager.LoadSceneAsync`. This prevents AR session duplication and makes scene transitions cleaner. Each era scene contains local scripts for its interaction. For example, Cambrian uses AR camera physics raycasts to pop good and bad bubbles, Ordovician maps a slider to post-processing and fish physics, Triassic maps a slider to water height and colour grading, and Jurassic combines a timed quiz with AR plane raycasting to place a dinosaur prefab on a detected floor.
-
-What I would emphasise:
-
-- I designed the app as a modular AR scene system.
-- I separated persistent AR infrastructure from per-era content.
-- I used additive scene loading to keep tracking stable.
-- I built custom C# interactions instead of relying only on imported assets.
-- I handled mobile tap input, physics raycasts, AR raycasts, quizzes, sliders, animation triggers, and post-processing.
-- I had to debug not just code, but also Unity Inspector references, colliders, canvases, AR camera assignment, lighting, prefab scale, scene build settings, and real iPhone behaviour.
-
-## 13. Skills Demonstrated
+## 11. Skills Demonstrated
 
 - Unity scene architecture.
 - C# gameplay scripting.
@@ -612,36 +521,3 @@ What I would emphasise:
 - Quiz state management.
 - Imported asset integration.
 - Debugging on mobile AR hardware.
-
-## 14. Honest Limitations
-
-The project is a dissertation/prototype build, so some parts are more prototype-style than production-style.
-
-Examples:
-
-- Some scripts are scene-specific and could be refactored into more generic systems.
-- Several public Inspector references must be wired manually.
-- There are imported asset packs and generated Unity folders that make the project very large.
-- Some older or experimental scripts remain in the project, such as alternate start/placement helpers.
-- Automated tests are not present, which is common for a Unity AR dissertation prototype but would be improved in a production app.
-
-How to frame this in an interview:
-
-> For a dissertation prototype, I prioritised getting a complete AR experience working end-to-end on a real device. If I continued it, I would refactor repeated quiz logic into a data-driven quiz system, clean the asset structure, remove unused assets, add better error handling for missing Inspector references, and create a smaller production build pipeline.
-
-## 15. Possible Future Improvements
-
-- Convert all quiz content into ScriptableObjects or JSON data.
-- Create one reusable quiz component instead of scene-specific quiz managers.
-- Add a central scene registry instead of parallel arrays for pages and scene names.
-- Add better loading progress feedback.
-- Add analytics for which eras users visit.
-- Add accessibility options for text size and contrast.
-- Optimise imported models and textures for mobile.
-- Add audio narration for museum accessibility.
-- Add persistent progress tracking.
-- Add more automated validation for missing Inspector references.
-
-## 16. Final One-Minute Explanation
-
-This was a Unity AR educational app for exploring geological eras in a museum-style experience. I built the architecture around one persistent AR base scene and multiple additive era scenes, so the AR session stayed alive while content changed. The UI was made with UI Toolkit pages for the timeline, and each era had its own interaction built in C#. I implemented quizzes, bubble popping, score tracking, slider-based climate effects, physics-based extinction, water-level changes, random swimming movement, fade reveals, AR plane object placement, reset logic, and dinosaur tap animations. The main technical challenge was connecting code, Unity scene objects, AR camera tracking, mobile input, colliders, canvases, post-processing, prefabs, and iPhone testing into one working experience.
