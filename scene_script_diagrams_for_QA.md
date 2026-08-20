@@ -1,15 +1,3 @@
-# Scene And Script Diagrams For Q&A
-
-Use this document to explain how the Unity implementation works. The key point to make in the Q&A is that the hard part was not only writing C# scripts. The hard part was wiring those scripts to the correct Unity objects, Inspector references, canvases, buttons, sliders, AR managers, colliders, prefabs, imported models, lights, post-processing volumes, and additive scenes, then debugging the result on a real iPhone.
-
-## Short Spoken Script
-
-The project is structured around one persistent AR base scene and a set of additive geological period scenes. The base scene keeps the AR session, XR Origin, AR camera, UI Toolkit timeline, EventSystem, and shared utilities alive throughout the app. When the user chooses a geological period, `EraNavigator` loads the matching period scene additively, hides the timeline UI, and lets that scene take over the screen. When the user presses the exit button inside a period scene, `ExitARScene` finds the persistent `EraNavigator`, unloads the current AR scene, restores the timeline UI, and returns the user to the same timeline page.
-
-Most scenes then have their own local interaction logic. Some scenes are mostly visual and only need the shared exit flow, while others have more complex behaviours. The Cambrian scene uses tap raycasts, bubble colliders, scoring, audio, and object destruction. The Ordovician scene links a slider to post-processing, text visibility, and physics-based fish death. The Triassic scene uses a midpoint slider mapping to control water height and colour changes. Quiz scenes use start scripts to hide and reveal groups of objects, then quiz manager scripts to handle answer checking, feedback, wrong-answer lockout, and progression. The Jurassic scene is the most integrated because it combines delayed quiz logic, darkening the scene, hiding normal content, enabling AR plane raycasting, spawning a dinosaur prefab, resetting placement, and triggering animations.
-
-Because this was AR, a lot of bugs only appeared on the physical iPhone after building through Xcode. I had to debug whether each problem came from the C# code, Unity Inspector references, world-space canvas settings, missing AR camera assignment, EventSystem setup, raycast layers, colliders, additive scene loading, AR plane detection, prefab scale, mobile lighting, or device-specific input behaviour.
-
 ## 1. Persistent Base Scene: `XR+UI.unity`
 
 Main responsibility: keep AR and navigation alive while period scenes are swapped in and out.
